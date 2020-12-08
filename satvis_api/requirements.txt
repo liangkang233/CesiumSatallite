@@ -1,0 +1,5 @@
+Flask==1.1.2
+numpy==1.19.3
+Pillow==8.0.1
+sgp4==2.13
+Shapely==1.7.1

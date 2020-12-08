@@ -17,4 +17,3 @@ run python app.py
 
 ![1592100082449](../satvis/assets/1592100082449.png)
 
-WHAT
