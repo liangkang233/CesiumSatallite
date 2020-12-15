@@ -20,10 +20,7 @@ npm run start
 ## 后端配置：
 >最好新建python虚拟环境Venv操作,跳转至satvis_api中
 ```
-pip install XXX
-```
-XXX代表./satvis_api/requirements.txt中python中包版本，接着运行代码
-```
+pip install -r ./requirements.txt
 python app.py
 ```
 效果：
