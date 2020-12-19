@@ -136,5 +136,21 @@ def get_pass_sats():
         })
     return jsonify(countries)
 
+@app.route('/getsometing', methods=['GET'])
+def gettest():
+    mode = request.args.get('mode')
+    snode = request.args.get('snode')
+    dnode = request.args.get('dnode')
+    print(f"get data: mode={mode},snode={snode},dnode={dnode}")
+    return f"<html><body>get return: mode={mode},snode={snode},dnode={dnode}</body></html>"
+
+@app.route('/postsometing', methods=['POST'])
+def posttest():
+    mode = request.form['mode']
+    snode = request.form['snode']
+    dnode = request.form['dnode']
+    print(f"post data: mode={mode},snode={snode},dnode={dnode}")
+    return f"<html><body>post return: mode={mode},snode={snode},dnode={dnode}</body></html>"
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port='5000')
