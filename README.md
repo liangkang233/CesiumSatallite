@@ -1,6 +1,12 @@
 # 基于Cesium平台显示的Exata卫星轨迹可视化
 <br />
 
+整个项目的消息流程图使用开源软件[DrawIO](https://app.diagrams.net/index.html)绘制,[切换流程文件](mydata/切换流程.drawio)可以使用上面网站打开，    
+<center>  
+
+![消息流程图](mydata/未命名绘图.png)
+</center> <br /><br />
+
 ## 前端配置：
 [cesium中文教程](http://cesium.xin/wordpress/archives/all-article.html)  
 *原工程：https://github.com/Flowm/satvis*  
@@ -21,7 +27,6 @@ npm run start
 ### 运行效果预览：
 ![1592100082449](../satvis/assets/1592100082449.png)
 ![预览图](mydata/配置截图/int.png)<br /><br /><br /><br />
-
 
 
 
