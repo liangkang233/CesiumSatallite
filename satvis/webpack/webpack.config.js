@@ -119,25 +119,25 @@ module.exports = {
       template: "src/index.html",
       chunks: ["app"]
     }),
-    new HtmlWebpackPlugin({
-      filename: "move.html",
-      template: "src/index.html",
-      chunks: ["move"]
-    }),
-    new HtmlWebpackPlugin({
-      filename: "ot.html",
-      template: "src/index.html",
-      chunks: ["ot"]
-    }),
-    new HtmlWebpackPlugin({
-      filename: "embedded.html",
-      template: "src/embedded.html",
-      chunks: []
-    }),
-    new HtmlWebpackPlugin({
-      filename: "test.html",
-      chunks: ["test"]
-    }),
+    // new HtmlWebpackPlugin({
+    //   filename: "move.html",
+    //   template: "src/index.html",
+    //   chunks: ["move"]
+    // }),
+    // new HtmlWebpackPlugin({
+    //   filename: "ot.html",
+    //   template: "src/index.html",
+    //   chunks: ["ot"]
+    // }),
+    // new HtmlWebpackPlugin({
+    //   filename: "embedded.html",
+    //   template: "src/embedded.html",
+    //   chunks: []
+    // }),
+    // new HtmlWebpackPlugin({
+    //   filename: "test.html",
+    //   chunks: ["test"]
+    // }),
     new MiniCssExtractPlugin({
       filename: "[name].[chunkhash:8].css",
       chunkFilename: "[id].[chunkhash:8].css"
@@ -161,26 +161,26 @@ module.exports = {
       // Define relative base path in cesium for loading assets
       CESIUM_BASE_URL: JSON.stringify("cesium/"),
     }),
-    new WorkboxPlugin.InjectManifest({
-      swSrc: "./src/sw.js",
-      swDest: "sw.js",
-      include: [
-        /\.css$/,
-        /\.css$/,
-        /\.html$/,
-        /\.js$/,
-        /\.png$/,
-        /data\/tle\/.*\.txt$/,
-        /dist\/Assets\/.*\.jpg$/,
-        /dist\/Assets\/.*\.png$/,
-        /dist\/Assets\/.*\.xml$/,
-        /dist\/Assets\/approximateTerrainHeights.json$/,
-      ],
-      exclude: [
-        /dist\/ThirdParty\//,
-        /dist\/Workers\//,
-        /dist\/Widgets\//,
-      ],
-    }),
+    // new WorkboxPlugin.InjectManifest({
+    //   swSrc: "./src/sw.js",
+    //   swDest: "sw.js",
+    //   include: [
+    //     /\.css$/,
+    //     /\.css$/,
+    //     /\.html$/,
+    //     /\.js$/,
+    //     /\.png$/,
+    //     /data\/tle\/.*\.txt$/,
+    //     /dist\/Assets\/.*\.jpg$/,
+    //     /dist\/Assets\/.*\.png$/,
+    //     /dist\/Assets\/.*\.xml$/,
+    //     /dist\/Assets\/approximateTerrainHeights.json$/,
+    //   ],
+    //   exclude: [
+    //     /dist\/ThirdParty\//,
+    //     /dist\/Workers\//,
+    //     /dist\/Widgets\//,
+    //   ],
+    // }),
   ],
 };

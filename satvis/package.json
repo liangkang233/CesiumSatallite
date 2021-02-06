@@ -1,5 +1,5 @@
 {
-  "name": "SatVis",
+  "name": "satvis",
   "version": "1.0.0",
   "description": "Satellite orbit visualization with CesiumJS",
   "scripts": {
@@ -27,11 +27,13 @@
     "cesium": "^1.68.0",
     "cesium-sensor-volumes": "github:Flowm/cesium-sensor-volumes#cesium-1.59",
     "dayjs": "^1.8.23",
+    "install": "^0.13.0",
     "satellite.js": "^4.0.0",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-multi-select": "^4.5.0",
     "vue-router": "^3.1.6",
+    "vue-socket.io": "^3.0.10",
     "workbox-window": "^5.1.2"
   },
   "devDependencies": {
@@ -71,7 +73,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2",
-    "workbox-webpack-plugin": "^5.1.2"
+    "workbox-webpack-plugin": "^5.1.2",
+    "ws": "^1.1.5"
   },
   "ava": {
     "require": [

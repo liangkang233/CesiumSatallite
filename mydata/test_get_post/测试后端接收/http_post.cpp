@@ -65,10 +65,9 @@ int main(int argc, char **argv)
         strcat(str1, "Content-Type: application/x-www-form-urlencoded\n");
         strcat(str1, "Content-Length: ");
         strcat(str1, str);
-        strcat(str1, "\n\n");
+        strcat(str1, "\r\n\r\n");
         //str2的值为post的数据
         strcat(str1, str2);
-        strcat(str1, "\r\n\r\n");
         printf("%s\n",str1);
  
         ret = write(sockfd,str1,strlen(str1));

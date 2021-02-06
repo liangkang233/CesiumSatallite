@@ -206,11 +206,11 @@ export class CesiumController {
       this.viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
       break;
     case "Maptiler":
-      this.viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
-        url: "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=8urAyLJIrn6TeDtH0Ubh",
-        credit: "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">© MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap contributors</a>",
-        requestVertexNormals: true,
-      });
+      // this.viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
+      //   url: "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=8urAyLJIrn6TeDtH0Ubh",
+      //   credit: "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">© MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap contributors</a>",
+      //   requestVertexNormals: true,
+      // });
       break;
     case "ArcGIS":
       this.viewer.terrainProvider = new Cesium.ArcGISTiledElevationTerrainProvider({

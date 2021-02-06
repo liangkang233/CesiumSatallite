@@ -10,15 +10,15 @@ export class SatelliteManager {
     this.viewer = viewer;
 
     this.satellites = [];
-    this.enabledComponents = ["Point"];
+    this.enabledComponents = ["Point", "Label", "Orbit", "Ground station link"];
     this.enabledTags = [];
     this.enabletles=[];
-    this.addFromTleUrl("../../data/tle/ext/beidou.txt", ["北斗卫星"]);
-    this.addFromTleUrl("../../data/tle/ext/ziyuan.txt", ["资源系列"]);
-    this.addFromTleUrl("../../data/tle/ext/huanjin.txt", ["环境系列"]);
-    this.addFromTleUrl("../../data/tle/ext/zhongba.txt", ["中巴资源"]);
-    this.addFromTleUrl("../../data/tle/ext/shijian.txt", ["实践系列"]); 
-    this.description='123';
+    // this.addFromTleUrl("../../data/tle/ext/beidou.txt", ["北斗卫星"]);
+    // this.addFromTleUrl("../../data/tle/ext/ziyuan.txt", ["资源系列"]);
+    // this.addFromTleUrl("../../data/tle/ext/huanjin.txt", ["环境系列"]);
+    // this.addFromTleUrl("../../data/tle/ext/zhongba.txt", ["中巴资源"]);
+    // this.addFromTleUrl("../../data/tle/ext/shijian.txt", ["实践系列"]); 
+    // this.description='123';
 // 监听事件，如果追踪的实体变化了，就改变
     this.viewer.trackedEntityChanged.addEventListener(() => {
       let trackedSatelliteName = this.trackedSatellite;
@@ -70,22 +70,22 @@ export class SatelliteManager {
       this.enabledSatellites.forEach((sat) => {
         enabletles.push(sat.tle);
       });
-      console.log(enabletles);
+      // console.log(enabletles);
       var information;
-      axios.post('api/pass_sats', enabletles).then((response) => {
-        if(response.data!='undefined' ){         
-           information= response.data;
-        }
-        console.log(information);
-         information.forEach((item)=>{
-          if(item.country == data.name){
-            console.log(item.sats);
-            data.description = DescriptionHelper.renderDescription(time, "", "", item.sats, false, "","","");     
-            console.log(this.description);
+  //     axios.post('api/pass_sats', enabletles).then((response) => {
+  //       if(response.data!='undefined' ){         
+  //          information= response.data;
+  //       }
+  //       console.log(information);
+  //        information.forEach((item)=>{
+  //         if(item.country == data.name){
+  //           console.log(item.sats);
+  //           data.description = DescriptionHelper.renderDescription(time, "", "", item.sats, false, "","","");     
+  //           console.log(this.description);
           
-          }
-        })
-     }) ;
+  //         }
+  //       })
+  //    }) ;
      
 
   }

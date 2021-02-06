@@ -10,6 +10,7 @@ export class SatelliteProperties {
     if (tle.startsWith("0 ")) {
       this.name = this.name.substring(2);
     }
+    this.id=this.name.split("-")[1];
     this.orbit = new Orbit(this.name, tle);
     this.satnum = this.orbit.satnum;
     this.tags = tags;

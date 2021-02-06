@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, abort, make_response, request
 from sgp4.api import Satrec
 from sgp4.api import jday
-import datetime
-import json
+import datetime, json, collections
 import numpy as np
 from PIL import Image
 from itertools import groupby
+from flask_socketio import emit, SocketIO
 
 
 world = np.array(Image.open('./data/world.tif'), dtype=np.int)
@@ -91,6 +91,10 @@ def pass_countries(tle):
     return pass_country
 
 app = Flask(__name__)
+socketio = SocketIO(app,cors_allowed_origins="*")
+signal = collections.OrderedDict()
+# thread_lock = RLock()
+# num=0
 
 @app.errorhandler(404)
 def not_found(error):
@@ -138,19 +142,51 @@ def get_pass_sats():
 
 @app.route('/getsometing', methods=['GET'])
 def gettest():
-    mode = request.args.get('mode')
-    snode = request.args.get('snode')
-    dnode = request.args.get('dnode')
-    print(f"get data: mode={mode},snode={snode},dnode={dnode}")
-    return f"<html><body>get return: mode={mode},snode={snode},dnode={dnode}</body></html>"
+    message = {'src':'', 'dst':'', 'type':''}
+    message['type'] = request.args.get('type')
+
+    if message['type'] == 'Exata_Start' : 
+        with open("initialize.json","r") as initialize:
+            Initialize=json.load(initialize)
+            print ("Exata启动仿真，卫星初始化值为：{}".format(Initialize))
+            emit('Satellite_Initialize',json.dumps(Initialize), \
+                broadcast=True, namespace='/test')
+    elif message['type'] == 'Exata_Accomplish' :
+        emit('Satellite_Accomplish', json.dumps(message), \
+            broadcast=True, namespace='/test') 
+        print ("Exata仿真结束")
+    elif message['type'] == 'EPC_MESSAGE_TYPE_DETACH_UE' :
+        message['src'] = request.args.get('src')
+        message['dst'] = request.args.get('dst')
+        emit('Satellite_Switch', json.dumps(message), \
+            broadcast=True, namespace='/test') 
+        print ("发送卫星切换的值为：{}".format(message))
+    else :
+        print ("接收到无效信令，将其丢弃")
+        return "<html><body> Flask access invalid data </body></html>"
+    
+    return "<html><body> data access </body></html>"
 
 @app.route('/postsometing', methods=['POST'])
 def posttest():
-    mode = request.form['mode']
-    snode = request.form['snode']
-    dnode = request.form['dnode']
-    print(f"post data: mode={mode},snode={snode},dnode={dnode}")
-    return f"<html><body>post return: mode={mode},snode={snode},dnode={dnode}</body></html>"
+    Type = request.form['type']
+    src = request.form['src']
+    dst = request.form['dst']
+    print(f"post data: type={Type},src={src},dst={dst}")
+    return f"<html><body>post return: type={Type},src={src},dst={dst}</body></html>"
+
+@socketio.on('connect', namespace='/test')
+def test_connect():
+    print('连接flask成功！请求ID：{}'.format(request.sid))
+
+@socketio.on('disconnect', namespace='/test')
+def on_disconnect():
+    print('客户端断开连接！')
+
+@socketio.on("Initialize_event",namespace="/test")
+def Initialize_event(data):
+    print ("cesium初始化成功，设定其暂停时间为{}".format(data)) 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port='5000')
+    # app.run(debug=True, host='0.0.0.0', port='5000')
+    socketio.run(app, debug=True, host='0.0.0.0', port='5000')

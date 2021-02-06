@@ -4,6 +4,7 @@ import { CesiumEntityWrapper } from "./CesiumEntityWrapper";
 import { DescriptionHelper } from "./DescriptionHelper";
 import axios from 'axios';
 import * as Cesium from "cesium/Cesium";
+// import {} from "../App"; //导入app定义接收的当前转连接卫星标号
 // import CesiumSensorVolumes from "CesiumSensorVolumes";
 export class SatelliteEntityWrapper extends CesiumEntityWrapper {
   constructor(viewer, tle, tags) {
@@ -80,40 +81,40 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
       }
     });
   }
-  changepolygoncolor(){
-      this.interval=setInterval(() => {
-        var time =this.viewer.clock.currentTime;
-        const cartographic = this.props.computePositionCartographicDegrees(time);
-        var url='api/country?lat='+cartographic.longitude+'&lon='+cartographic.latitude ;
-        console.log(url);
-        axios.get(url).then((response) => {
-          var id=response.data.id;
-          console.log(id);
-          console.log(this.lastid);
-          if(this.lastid != -1 && id!=this.lastid){
-            this.changecolor(this.lastid,Cesium.Color.YELLOW.withAlpha(0.8));
-          }   
-          if(id !=-1 && id!=this.lastid){
+  // changepolygoncolor(){
+  //     this.interval=setInterval(() => {
+  //       var time =this.viewer.clock.currentTime;
+  //       const cartographic = this.props.computePositionCartographicDegrees(time);
+  //       // var url='api/country?lat='+cartographic.longitude+'&lon='+cartographic.latitude ;
+  //       console.log(url);
+  //       axios.get(url).then((response) => {
+  //         var id=response.data.id;
+  //         console.log(id);
+  //         console.log(this.lastid);
+  //         if(this.lastid != -1 && id!=this.lastid){
+  //           this.changecolor(this.lastid,Cesium.Color.YELLOW.withAlpha(0.8));
+  //         }   
+  //         if(id !=-1 && id!=this.lastid){
             
-            this.changecolor(id,Cesium.Color.PINK.withAlpha(0.8));
-          }
-          this.lastid=id; 
-        })   
+  //           this.changecolor(id,Cesium.Color.PINK.withAlpha(0.8));
+  //         }
+  //         this.lastid=id; 
+  //       })   
         
-      }, 500);
+  //     }, 500);
 
   
-  };
-  getcountries(){
-    console.log('ok');
-     axios.post('api/pass_countries',{tle: this.tle}).then((response) => {
-       if(response.data!='undefined' ){
+  // };
+  // getcountries(){
+  //   console.log('ok');
+  //    axios.post('api/pass_countries',{tle: this.tle}).then((response) => {
+  //      if(response.data!='undefined' ){
          
-        this.countries.push(response.data);
-       }
+  //       this.countries.push(response.data);
+  //      }
 
-    }) ;
-  }
+  //   }) ;
+  // }
   stopinterval(){
     clearInterval(this.interval);
   }
@@ -204,7 +205,7 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
     this.createCesiumSatelliteEntity("Ground track", "polyline", polyline);
   }
 
-//将处于ongoing的卫星与地面监控站连接
+//卫星与地面终端连接线
   createGroundStationLink() {
     const polyline = new Cesium.PolylineGraphics({
       followSurface: false,
@@ -219,7 +220,12 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
         return positions;
       }, false),
       show: new Cesium.CallbackProperty((time) => {
-        return this.props.passIntervals.contains(time);
+        // return this.props.passIntervals.contains(time);    //原函数是根据Intervals来判断卫星与基站是否连接
+        // console.log(sessionStorage.getItem("dst"))
+        if(this.props.id === sessionStorage.getItem("dst"))  {
+          return true;}
+        else 
+          return false;
       }, false),
       width: 5,
     });

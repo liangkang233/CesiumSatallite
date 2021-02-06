@@ -6,8 +6,14 @@ import * as Sentry from "@sentry/browser";
 Sentry.init({ dsn: "https://0c7d1a82eedb48ee8b83d87bf09ad144@sentry.io/1541793" });
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueSocketIO from 'vue-socket.io';
 
 Vue.use(VueAxios, axios)
+
+Vue.use(new VueSocketIO({
+  // debug: true,
+  connection: 'http://127.0.0.1:5000/test'
+}))
 
 const app = new Vue({
   el: "#app",
@@ -30,19 +36,19 @@ window.app = app;
 // cc.sats.addFromTleUrl("data/tle/norad/weather.txt", ["Weather"]);
 // // cc.sats.addFromTleUrl("data/tle/norad/tle-new.txt", ["New"]);
 // cc.sats.addFromTleUrl("data/tle/ext/beidou.txt", ["BEIDOU"]);
-// cc.sats.addFromTleUrl("data/tle/ext/move.txt", ["MOVE"]);
+cc.sats.addFromTleUrl("data/tle/ext/move.txt", ["MOVE"]);
 if (cc.sats.enabledTags.length === 0) {
   cc.sats.enableTag("MOVE");
 }
 
 // Register service worker
-if ("serviceWorker" in navigator) {
-  const wb = new Workbox("sw.js");
-  wb.addEventListener("controlling", (evt) => {
-    if (evt.isUpdate) {
-      console.log("Reloading page for latest content");
-      window.location.reload();
-    }
-  });
-  wb.register();
-}
+// if ("serviceWorker" in navigator) {
+//   const wb = new Workbox("sw.js");
+//   wb.addEventListener("controlling", (evt) => {
+//     if (evt.isUpdate) {
+//       console.log("Reloading page for latest content");
+//       window.location.reload();
+//     }
+//   });
+//   wb.register();
+// }

@@ -24,25 +24,25 @@ window.app = app;
 
 // cc.sats.addFromTleUrl("data/tle/ext/ot144-12.txt", ["OT144-12"]);
 // cc.sats.addFromTleUrl("data/tle/ext/beidou.txt", ["BEIDOU"]);
-cc.sats.addFromTleUrl("data/tle/ext/beidou.txt", ["北斗卫星"]);
-cc.sats.addFromTleUrl("data/tle/ext/ziyuan.txt", ["资源系列"]);
-cc.sats.addFromTleUrl("data/tle/ext/huanjin.txt", ["环境系列"]);
-cc.sats.addFromTleUrl("data/tle/ext/zhongba.txt", ["中巴资源"]);
-cc.sats.addFromTleUrl("data/tle/ext/shijian.txt", ["实践系列"]); 
+// cc.sats.addFromTleUrl("data/tle/ext/beidou.txt", ["北斗卫星"]);
+// cc.sats.addFromTleUrl("data/tle/ext/ziyuan.txt", ["资源系列"]);
+// cc.sats.addFromTleUrl("data/tle/ext/huanjin.txt", ["环境系列"]);
+// cc.sats.addFromTleUrl("data/tle/ext/zhongba.txt", ["中巴资源"]);
+// cc.sats.addFromTleUrl("data/tle/ext/shijian.txt", ["实践系列"]); 
 // Register service worker
-if ("serviceWorker" in navigator) {
-  const wb = new Workbox("sw.js");
-  wb.addEventListener("waiting", () => {
-    wb.addEventListener("controlling", () => {
-      console.log("Reloading page for latest content");
-      window.location.reload();
-    });
-    wb.messageSW({type: "SKIP_WAITING"});
-    // Old serviceworker message for migration, can be removed in the future
-    wb.messageSW("SKIP_WAITING");
-  });
-  wb.register();
-}
+// if ("serviceWorker" in navigator) {
+//   const wb = new Workbox("sw.js");
+//   wb.addEventListener("waiting", () => {
+//     wb.addEventListener("controlling", () => {
+//       console.log("Reloading page for latest content");
+//       window.location.reload();
+//     });
+//     wb.messageSW({type: "SKIP_WAITING"});
+//     // Old serviceworker message for migration, can be removed in the future
+//     wb.messageSW("SKIP_WAITING");
+//   });
+//   wb.register();
+// }
 
 if (cc.sats.enabledTags.length === 0) {
   cc.setTime("2019-07-01");
