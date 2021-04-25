@@ -142,7 +142,10 @@ def get_pass_sats():
 
 @app.route('/getsometing', methods=['GET'])
 def gettest():
-    message = {'src':'', 'dst':'', 'type':''}
+    message = {'type':'', 'src':'', 'dst':'',   \
+               'ue':'', 'gnb':'', '5gc':'', 'delay':'',\
+               's_cn':'', 't_cn':'', 'dsts':'', 'srcs':''
+    }
     message['type'] = request.args.get('type')
 
     if message['type'] == 'Exata_Start' : 
@@ -155,15 +158,32 @@ def gettest():
         emit('Satellite_Accomplish', json.dumps(message), \
             broadcast=True, namespace='/test') 
         print ("Exata仿真结束")
-    elif message['type'] == 'EPC_MESSAGE_TYPE_DETACH_UE' :
-        message['src'] = request.args.get('src')
-        message['dst'] = request.args.get('dst')
-        emit('Satellite_Switch', json.dumps(message), \
-            broadcast=True, namespace='/test') 
-        print ("发送卫星切换的值为：{}".format(message))
     else :
-        print ("接收到无效信令，将其丢弃")
-        return "<html><body> Flask access invalid data </body></html>"
+        typenum = int( request.args.get('typenum') )
+        if typenum >= 0 and typenum <= 27 :
+        #     message['ue'] = request.args.get('ue')
+        #     message['gnb'] = request.args.get('gnb')
+        #     message['5gc'] = request.args.get('5gc')
+        #     print ("ue={},gnb={},5gc={}, enb -> 5gc"\
+        #         .format(message['ue'], message['gnb'], message['5gc']) )
+        # elif typenum >= 2 and typenum <= 4 :
+        #     if message['type'] == 'EPC_MESSAGE_TYPE_DETACH_UE' :
+        #         emit('Satellite_Switch', json.dumps(message), \
+        #             broadcast=True, namespace='/test') 
+        #         print ("发送卫星切换的值为：{}".format(message))
+        # elif typenum >= 19 and typenum <= 27 :
+            message['ue'] = request.args.get('ue')
+            message['gnb'] = request.args.get('gnb')
+            message['5gc'] = request.args.get('5gc')
+            message['delay'] = request.args.get('delay')
+            message['s_cn'] = request.args.get('s_cn')
+            message['t_cn'] = request.args.get('t_cn')
+            message['dsts'] = request.args.get('dsts')
+            message['srcs'] = request.args.get('srcs')
+            # print ("接收数据为{}，typenum= {}".format(message, typenum))
+        else :
+            print ("接收到无效信令，将其丢弃")
+            return "<html><body> Flask access invalid data </body></html>"
     
     return "<html><body> data access </body></html>"
 

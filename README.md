@@ -41,7 +41,6 @@ python运行版本为3.8
 pip install -r ./requirements.txt
 python app.py
 ```
->环境配置完成后可以直接执行[start_flask脚本](start_flask.ps1)来运行flask  
-启动虚拟环境并启动flask (虚拟文件夹为venv且路径在satvis_api内根目录此脚本才生效)
+>环境配置完成后可以直接执行[start_flask脚本](start_flask.ps1)来启动虚拟环境并运行flask (虚拟文件夹为venv且路径在satvis_api内根目录此脚本才生效)
 ### 运行效果预览：
 ![1592099860903](../satvis/assets/1592099860903.png)
