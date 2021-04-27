@@ -10,11 +10,17 @@ export class SatelliteProperties {
     if (tle.startsWith("0 ")) {
       this.name = this.name.substring(2);
     }
-    this.id=this.name.split("-")[1];
+    /* *****添加属性id，用于切换 *******/
+    if(this.name.length>=16){
+      var id=this.name.substring(13,15);
+    }
+    this.id=id;
+    // console.log (id);
+    /* *******************************/
     this.orbit = new Orbit(this.name, tle);
     this.satnum = this.orbit.satnum;
     this.tags = tags;
-    this.countries=[];
+
     this.groundStationPosition = undefined;
     this.passes = [];
     this.passInterval = undefined;
@@ -118,13 +124,14 @@ export class SatelliteProperties {
       interpolationAlgorithm: Cesium.LagrangePolynomialApproximation,
     });
 
-    // Spread sampledPosition updates
+    // Spread sampledPosition updates 传播 位置更新
     const randomOffset = Math.random() * 60 * 15;
     let reference = Cesium.JulianDate.addSeconds(julianDate, randomOffset, new Cesium.JulianDate());
 
     const startTime = -samplesBwd * interval;
     const stopTime = samplesFwd * interval;
     for (let time = startTime; time <= stopTime; time += interval) {
+      // 采样时间和指定时间的位置
       const timestamp = Cesium.JulianDate.addSeconds(reference, time, new Cesium.JulianDate());
       const position = this.computePositionCartesian3(timestamp);
       sampledPosition.addSample(timestamp, position);
@@ -143,9 +150,9 @@ export class SatelliteProperties {
       //  }
       //});
     }
-
+    // 位置样本和惯性样本
     this.sampledPosition = sampledPosition;
-    this.sampledPositionInertial = sampledPositionInertial;
+    this. sampledPositionInertial = sampledPositionInertial;
     return reference;
   }
 
@@ -166,7 +173,7 @@ export class SatelliteProperties {
   get groundStationAvailable() {
     return (typeof this.groundStationPosition !== "undefined");
   }
-//实时更新
+
   updatePasses(time) {
     if (!this.groundStationAvailable) {
       return false;

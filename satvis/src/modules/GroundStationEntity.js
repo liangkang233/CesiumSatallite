@@ -3,6 +3,7 @@ import { DescriptionHelper } from "./DescriptionHelper";
 
 import * as Cesium from "cesium/Cesium";
 import dayjs from "dayjs";
+// 地面站图标 svg类型
 import icon from "../assets/images/icons/dish.svg";
 
 export class GroundStationEntity extends CesiumEntityWrapper {
@@ -21,13 +22,9 @@ export class GroundStationEntity extends CesiumEntityWrapper {
     this.createGroundStation();
 
     this.viewer.selectedEntityChanged.addEventListener(() => {
-
       if (this.isSelected) {
         this.setSelectedOnTickCallback((clock) => {
-          console.log('sat');
-
           this.sats.enabledSatellites.forEach((sat) => {
-            console.log('sat');
             sat.props.updatePasses(clock.currentTime);
           });
         });
@@ -50,26 +47,25 @@ export class GroundStationEntity extends CesiumEntityWrapper {
   createDescription() {
     const description = new Cesium.CallbackProperty((time) => {
       const passes = this.passes(time);
-      const content = DescriptionHelper.renderDescription(time, this.name, this.position, passes, true,"","","");
+      const content = DescriptionHelper.renderDescription(time, this.name, this.position, passes, true);
       return content;
     }, false);
     this.description = description;
   }
 
-  passes(time, deltaHours = 48) {
+  passes(time, deltaHours = 24) {
     let passes = [];
-    // Aggregate passes from all enabled satellites
+    // Aggregate passes from all enabled satellites 所有卫星的通过信息
     this.sats.enabledSatellites.forEach((sat) => {
       passes.push(...sat.props.passes);
     });
 
-    // Filter passes based on time，将时间小于48小时的筛选出来
+    // Filter passes based on time  将时间小于48小时的筛选出来
     passes = passes.filter((pass) => {
       return dayjs(pass.start).diff(time, "hours") < deltaHours;
     });
 
-    // Sort passes by time
-    //按时间顺序排序
+    // Sort passes by time 按时间顺序排序
     passes = passes.sort((a, b) => {
       return a.start - b.start;
     });

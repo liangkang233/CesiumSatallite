@@ -1,0 +1,58 @@
+{
+    "content":[
+        {"src":"25",
+        "dst":"25",
+        "type":"HOMF_SGMF_HANDVOER_REQUEST" ,  
+        "contents":"*****"},
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_SAT_HANDVOER_REQUEST" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SAT_SGMF_HANDVOER_REQUEST_ACKNEWLEDGE" ,  
+        "contents":"*****"},
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_HOMF_HANDVOER_REQUEST_ACKNEWLEDGE" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_HOMF_HANDVOER_COMMAND" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_SG_HANDVOER_COMMAND" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SAT_SGMF_HANDVOER_NOTIFY" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_HOMF_HANDVOER_NOTIFY" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_HOMF_CONTEXT_RELEASE_COMMAND" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_SG_CONTEXT_RELEASE_COMMAND" ,  
+        "contents":"*****"
+        },
+        {"src":"25",
+        "dst":"27",
+        "type":"SGMF_SG_CONTEXT_RELEASE_COMLETE" ,  
+        "contents":"*****"
+        }
+
+    ]
+}

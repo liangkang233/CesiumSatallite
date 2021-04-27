@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./components/Router";
 import { Workbox } from "workbox-window";
-
+// app.js文件内容包含这些 感觉是测试文件
 const app = new Vue({
   el: "#app",
   router,
@@ -13,10 +13,10 @@ const app = new Vue({
 // Export Vue for debugger
 window.app = app;
 
-/* global cc */
-cc.sats.addFromTleUrl("data/tle/ext/move.txt", ["noMOVE"]);
-if (cc.sats.enabledTags.length === 0) {
-  cc.sats.enableTag("noMOVE");
+/* global $cc */
+$cc.sats.addFromTleUrl("data/tle/ext/move.txt", ["MOVE"]);
+if ($cc.sats.enabledTags.length === 0) {
+  $cc.sats.enableTag("MOVE");
 }
 
 // Register service worker

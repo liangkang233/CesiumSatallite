@@ -4,7 +4,7 @@ module.exports = (on, config) => {
       args.push("--disable-web-security");
 
       console.log(browser, args);
-      return args
+      return args;
     }
-  })
-}
+  });
+};

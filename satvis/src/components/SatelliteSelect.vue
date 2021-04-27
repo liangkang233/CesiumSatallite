@@ -22,7 +22,7 @@
 </template>
 
 <script>
-/* global cc */
+/* global $cc */
 import multiSelect from "vue-multi-select";
 import "vue-multi-select/dist/lib/vue-multi-select.css";
 
@@ -34,7 +34,7 @@ export default {
     return {
       btnLabel: values => values.length > 0 ? values[0] : "Select...",
       values: [],
-      data: cc.sats.satlist,
+      data: $cc.sats.satlist,
       options: {
         groups: true,
       },
@@ -46,12 +46,12 @@ export default {
         return;
       }
       if (newSat.length === 1) {
-        cc.sats.trackedSatellite = newSat[0];
+        $cc.sats.trackedSatellite = newSat[0];
         if (this.$route.query.sat != newSat[0]) {
           this.$router.push({query: {...this.$route.query, sat: newSat[0]}});
         }
       } else if (oldSat.length === 1) {
-        cc.sats.trackedSatellite = "";
+        $cc.sats.trackedSatellite = "";
         let query = Object.assign({}, this.$route.query);
         delete query.sat;
         this.$router.replace({query});
@@ -60,7 +60,7 @@ export default {
   },
   mounted() {
     if (this.$route.query.sat) {
-      cc.sats.trackedSatellite = this.$route.query.sat;
+      $cc.sats.trackedSatellite = this.$route.query.sat;
     }
     this.$root.$on("updateTracked", this.update);
   },
@@ -69,9 +69,9 @@ export default {
   },
   methods: {
     update: function() {
-      this.data = cc.sats.satlist;
-      if (cc.sats.trackedSatellite) {
-        this.values = [cc.sats.trackedSatellite];
+      this.data = $cc.sats.satlist;
+      if ($cc.sats.trackedSatellite) {
+        this.values = [$cc.sats.trackedSatellite];
       } else {
         this.values = [];
       }

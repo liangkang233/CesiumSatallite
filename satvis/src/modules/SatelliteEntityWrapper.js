@@ -2,28 +2,21 @@ import { SatelliteProperties } from "./SatelliteProperties";
 import { CesiumTimelineHelper } from "./CesiumTimelineHelper";
 import { CesiumEntityWrapper } from "./CesiumEntityWrapper";
 import { DescriptionHelper } from "./DescriptionHelper";
-import axios from 'axios';
+
 import * as Cesium from "cesium/Cesium";
-// import {} from "../App"; //导入app定义接收的当前转连接卫星标号
 // import CesiumSensorVolumes from "CesiumSensorVolumes";
 export class SatelliteEntityWrapper extends CesiumEntityWrapper {
   constructor(viewer, tle, tags) {
     super(viewer);
     this.timeline = new CesiumTimelineHelper(viewer);
     this.props = new SatelliteProperties(tle, tags);
-    this.lastid=-1;
-    const dataSources=this.viewer.dataSources._dataSources[0];
-    this.neighborhoodEntities = dataSources.entities.values;
-    this.interval=0;
-    this.tags=tags;
-    this.tle=tle;
-    this.countries=new Array();
   }
-
+  
   enableComponent(name) {
     if (!this.created) {
       this.createEntities();
     }
+    // 暂时不明白这个 判断
     if (name === "Model" && !this.isTracked) {
       return;
     }
@@ -36,14 +29,16 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
         if (entity === "Orbit") {
           this.entities[entity].position = this.props.sampledPositionInertial;
           this.entities[entity].orientation = new Cesium.VelocityOrientationProperty(this.props.sampledPositionInertial);
-        } else if (entity === "Sensor cone") {
+        } 
+        else if (entity === "Sensor cone") {
           this.entities[entity].position = sampledPosition;
           this.entities[entity].orientation = new Cesium.CallbackProperty((time) => {
             const position = this.props.position(time);
             const hpr = new Cesium.HeadingPitchRoll(0, Cesium.Math.toRadians(180), 0);
             return Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
           }, false);
-        } else {
+        }
+        else {
           this.entities[entity].position = sampledPosition;
           this.entities[entity].orientation = new Cesium.VelocityOrientationProperty(sampledPosition);
         }
@@ -55,14 +50,16 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
     this.createPoint();
     //this.createBox();
     this.createLabel();
-    this.createOrbit();
     if (this.props.orbit.orbitalPeriod < 60 * 12) {
       this.createOrbit();
-      this.createOrbitTrack();
-      this.createGroundTrack();
-      //this.createCone();
+      // this.createOrbitTrack();
+      // this.createGroundTrack();
+      // this.createCone();
     }
+    // 3D模型调用函数
+    this.createModel();
     if (this.props.groundStationAvailable) {
+      // 地面切换函数
       this.createGroundStationLink();
     }
     this.defaultEntity = this.entities["Point"];
@@ -81,61 +78,17 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
       }
     });
   }
-  // changepolygoncolor(){
-  //     this.interval=setInterval(() => {
-  //       var time =this.viewer.clock.currentTime;
-  //       const cartographic = this.props.computePositionCartographicDegrees(time);
-  //       // var url='api/country?lat='+cartographic.longitude+'&lon='+cartographic.latitude ;
-  //       console.log(url);
-  //       axios.get(url).then((response) => {
-  //         var id=response.data.id;
-  //         console.log(id);
-  //         console.log(this.lastid);
-  //         if(this.lastid != -1 && id!=this.lastid){
-  //           this.changecolor(this.lastid,Cesium.Color.YELLOW.withAlpha(0.8));
-  //         }   
-  //         if(id !=-1 && id!=this.lastid){
-            
-  //           this.changecolor(id,Cesium.Color.PINK.withAlpha(0.8));
-  //         }
-  //         this.lastid=id; 
-  //       })   
-        
-  //     }, 500);
 
-  
-  // };
-  // getcountries(){
-  //   console.log('ok');
-  //    axios.post('api/pass_countries',{tle: this.tle}).then((response) => {
-  //      if(response.data!='undefined' ){
-         
-  //       this.countries.push(response.data);
-  //      }
-
-  //   }) ;
-  // }
-  stopinterval(){
-    clearInterval(this.interval);
-  }
-  
   createDescription() {
     const description = new Cesium.CallbackProperty((time) => {
       // cartographic地理位置
-
       const cartographic = this.props.computePositionCartographicDegrees(time);
-      const content = DescriptionHelper.renderDescription(time, this.props.name, cartographic, this.props.passes, false, this.props.orbit.tle,this.tags,this.countries);     
+      const content = DescriptionHelper.renderDescription(time, this.props.name, cartographic, this.props.passes, false, this.props.orbit.tle);
       return content;
     }, false);
-    console.log(this.description);
     this.description = description;
-    console.log(this.description);
+  }
 
-  }
-  changecolor(id,color){
-    var entity = this.neighborhoodEntities[id];
-    entity.polygon.material = color;
-  }
   createCesiumSatelliteEntity(entityName, entityKey, entityValue) {
     this.createCesiumEntity(entityName, entityKey, entityValue, this.props.name, this.description, this.props.sampledPosition, true);
   }
@@ -157,25 +110,46 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
     this.createCesiumSatelliteEntity("Box", "box", box);
   }
 
+  createModel() {
+    const model = new Cesium.ModelGraphics({
+      // uri: "data/models/" + this.props.name.split(" ").join("-") + ".glb",
+      uri: "data/models/zz.glb",
+      color:Cesium.Color.BULE,
+      scale : 3000,
+      // minimumPixelSize: 128000,
+      // maximumScale: 250000,
+      // shadows:Cesium.ShadowMode.DISABLED,
+      // silhouetteSize : 150000,
+    });
+    this.createCesiumSatelliteEntity("3D model", "model", model);
+  }
 
-//标签
+  // 标签
   createLabel() {
     const label = new Cesium.LabelGraphics({
       text: this.props.name,
-      scale: 0.6,
+      scale: 0.3,
       horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
       pixelOffset: new Cesium.Cartesian2(15, 0),
       distanceDisplayCondition: new Cesium.DistanceDisplayCondition(10000, 6.0e7),
       pixelOffsetScaleByDistance: new Cesium.NearFarScalar(1.0e1, 10, 2.0e5, 1),
+      disableDepthTestDistance : 1000.0
     });
+    this.viewer.scene.postProcessStages.fxaa.enabled = false;
     this.createCesiumSatelliteEntity("Label", "label", label);
   }
 
   createOrbit() {
     const path = new Cesium.PathGraphics({
-      leadTime: this.props.orbit.orbitalPeriod * 60 / 2 + 5,
-      trailTime: this.props.orbit.orbitalPeriod * 60 / 2 + 5,
-      material: Cesium.Color.WHITE.withAlpha(0.15),
+      leadTime: this.props.orbit.orbitalPeriod * 60 / 2 + 15,
+      trailTime: this.props.orbit.orbitalPeriod * 60 / 2 - 15,
+      material :new Cesium.PolylineDashMaterialProperty({
+        color:Cesium.Color.WHITE.withAlpha(0.3),
+        // gapColor:Cesium.Color.TRANSPARENT,
+        dashLength:30,
+        // dashPattern:500
+      }),
+      // Cesium.Color.WHITE.withAlpha(0.15),
       resolution: 600,
       width: 2,
     });
@@ -192,7 +166,8 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
     });
     this.createCesiumSatelliteEntity("Orbit track", "path", path);
   }
-//创建地面轨迹
+
+  //创建地面轨迹
   createGroundTrack() {
     const polyline = new Cesium.PolylineGraphics({
       material: Cesium.Color.ORANGE.withAlpha(0.2),
@@ -205,7 +180,31 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
     this.createCesiumSatelliteEntity("Ground track", "polyline", polyline);
   }
 
-//卫星与地面终端连接线
+  // createCone(fov = 12) {
+  //   const cone = new Cesium.Entity({
+  //     position: this.props.sampledPosition,
+  //     orientation: new Cesium.CallbackProperty((time) => {
+  //       const position = this.props.position(time);
+  //       const hpr = new Cesium.HeadingPitchRoll(0, Cesium.Math.toRadians(180), 0);
+  //       return Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+  //     }, false),
+  //   });
+
+  //   cone.addProperty("conicSensor");
+  //   cone.conicSensor = new CesiumSensorVolumes.ConicSensorGraphics({
+  //     radius: 10000000,
+  //     innerHalfAngle: Cesium.Math.toRadians(0),
+  //     outerHalfAngle: Cesium.Math.toRadians(fov),
+  //     lateralSurfaceMaterial: Cesium.Color.GOLD.withAlpha(0.15),
+  //     intersectionColor: Cesium.Color.GOLD.withAlpha(0.3),
+  //     intersectionWidth: 1,
+  //   });
+  //   // this.createCesiumSatelliteEntity("Sensor cone", "cone", cone);
+  //   this.entities["Sensor cone"] = cone;
+  //   this.viewer.entities.add(this.entities["Sensor cone"]);
+  // }
+
+  // //将处于ongoing的卫星与地面监控站连接
   createGroundStationLink() {
     const polyline = new Cesium.PolylineGraphics({
       followSurface: false,
@@ -219,13 +218,17 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
         const positions = [satPosition, groundPosition];
         return positions;
       }, false),
+      // show: new Cesium.CallbackProperty((time) => {
+      //   return this.props.passIntervals.contains(time);
+      // }, false),
       show: new Cesium.CallbackProperty((time) => {
-        // return this.props.passIntervals.contains(time);    //原函数是根据Intervals来判断卫星与基站是否连接
-        // console.log(sessionStorage.getItem("dst"))
-        if(this.props.id === sessionStorage.getItem("dst"))  {
-          return true;}
-        else 
-          return false;
+        // console.log(this.props.id=== switch_id);
+      //   if(this.props.id === switch_id)  return this.props.passIntervals.contains(time);
+      //   else return false;
+      // }, false),
+      if(this.props.id === sessionStorage.getItem("dst"))  {
+        return true;}
+        else return false;
       }, false),
       width: 5,
     });
@@ -258,6 +261,5 @@ export class SatelliteEntityWrapper extends CesiumEntityWrapper {
       }
     }
   }
-
 }
 

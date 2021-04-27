@@ -13,42 +13,49 @@ export class CesiumController {
     this.minimalUIAtStartup = DeviceDetect.inIframe();
 
     this.viewer = new Cesium.Viewer("cesiumContainer", {
+      // 是否创建动画小器件，左下角仪表
       animation: !this.minimalUI,
       baseLayerPicker: false,
+      //是否显示全屏按钮
       fullscreenButton: !this.minimalUI,
       fullscreenElement: document.body,
+      // shouldAnimate: true,//设置停止
+      // 仅以3D模式渲染
+      scene3DOnly : true,
       geocoder: false,
       homeButton: false,
       sceneModePicker: false,
+      // 获取将在地球上渲染的图像图层的集合
       imageryProvider: this.createImageryProvider().provider,
       navigationHelpButton: false,
       navigationInstructionsInitiallyVisible: false,
       selectionIndicator: false,
+      // 是否显示时间轴
       timeline: !this.minimalUI,
+      // 用于切换vr模式的单按钮小部件
       vrButton: !this.minimalUI,
+      // 传递给 Scene 的与 options 相对应的上下文和WebGL创建属性
       contextOptions: {
         webgl: {
+          // 透明度
           alpha: true,
         },
       },
     });
-    // this.viewer.dataSources.add('../../data/world.geo.json');
-    this.viewer.dataSources.add(Cesium.GeoJsonDataSource.load('../../data/world2.geo.json', {
-      stroke: Cesium.Color.BLACK,
-      fill: Cesium.Color.YELLOW.withAlpha(0.8),
-      strokeWidth: 5
-  }));
 
     // Cesium default settings
     this.viewer.clock.shouldAnimate = true;
+    // 启用以太阳为光源的地球
     this.viewer.scene.globe.enableLighting = true;
     this.viewer.scene.highDynamicRange = true;
+    // 显示渲染
     this.viewer.scene.maximumRenderTimeChange = 1/30;
+    // 则仅根据场景中的更改确定是否需要渲染帧
     this.viewer.scene.requestRenderMode = true;
     //this.viewer.scene.debugShowFramesPerSecond = true;
 
     // Export CesiumController for debugger
-    window.cc = this;
+    window.$cc = this;
 
     // CesiumController config
     this.imageryProviders = ["Offline", "OfflineHighres", "ArcGis", "OSM", "Tiles", "BlackMarble", "GOES-IR", "Nextrad", "Meteocool"];
@@ -60,7 +67,7 @@ export class CesiumController {
     this.createInputHandler();
     this.styleInfoBox();
 
-    // Create Satellite Manager 创建卫星管理模块
+    // Create Satellite Manager
     this.sats = new SatelliteManager(this.viewer);
 
     // Add privacy policy to credits when not running in iframe
@@ -74,6 +81,9 @@ export class CesiumController {
     }
   }
 
+  /**
+   * @param {string} sceneMode
+   */
   set sceneMode(sceneMode) {
     switch(sceneMode) {
     case "3D":
@@ -115,7 +125,7 @@ export class CesiumController {
     }
     layer.alpha = alpha;
   }
-// 加载不同底层的地图
+
   createImageryProvider(imageryProviderName = "OfflineHighres") {
     let provider;
     let alpha = 1;
@@ -206,11 +216,11 @@ export class CesiumController {
       this.viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
       break;
     case "Maptiler":
-      // this.viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
-      //   url: "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=8urAyLJIrn6TeDtH0Ubh",
-      //   credit: "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">© MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap contributors</a>",
-      //   requestVertexNormals: true,
-      // });
+      this.viewer.terrainProvider = new Cesium.CesiumTerrainProvider({
+        url: "https://api.maptiler.com/tiles/terrain-quantized-mesh/?key=8urAyLJIrn6TeDtH0Ubh",
+        credit: "<a href=\"https://www.maptiler.com/copyright/\" target=\"_blank\">© MapTiler</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap contributors</a>",
+        requestVertexNormals: true,
+      });
       break;
     case "ArcGIS":
       this.viewer.terrainProvider = new Cesium.ArcGISTiledElevationTerrainProvider({
@@ -277,7 +287,7 @@ export class CesiumController {
       this.setGroundStationFromClickEvent(event);
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   }
-//点击创建地面监控站
+
   setGroundStationFromClickEvent(event) {
     const cartesian = this.viewer.camera.pickEllipsoid(event.position);
     const didHitGlobe = Cesium.defined(cartesian);
@@ -292,7 +302,7 @@ export class CesiumController {
       this.groundStationPicker.enabled = false;
     }
   }
-//从自己所在的地理位置创建监控站
+
   setGroundStationFromGeolocation() {
     navigator.geolocation.getCurrentPosition(position => {
       if (typeof position === "undefined") {
@@ -368,7 +378,11 @@ export class CesiumController {
 
   styleInfoBox() {
     const infoBox = this.viewer.infoBox.container.getElementsByClassName("cesium-infoBox")[0];
+    infoBox.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms'); 
+    infoBox.setAttribute("src", "");
     const close = this.viewer.infoBox.container.getElementsByClassName("cesium-infoBox-close")[0];
+    close.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms'); 
+    close.setAttribute("src", "");
     if (infoBox && close) {
       // Container for additional buttons
       let container = document.createElement("div");
@@ -409,7 +423,7 @@ export class CesiumController {
 
     const frame = this.viewer.infoBox.frame;
     frame.addEventListener("load", function () {
-      // Inline infobox css as iframe does not use service worker
+      // Inline infobox css as iframe does not use service worker 内联infobox css as iframe不使用service worker
       const head = frame.contentDocument.head;
       const links = head.getElementsByTagName("link");
       for (const link of links) {
@@ -421,40 +435,5 @@ export class CesiumController {
       style.appendChild(node);
       head.appendChild(style);
     }, false);
-  }
-}
-function isInPolygon(checkPoint, polygonPoints) {
-  var counter = 0;
-  var i;
-  var xinters;
-  var p1, p2;
-  var pointCount = polygonPoints.length;
-  p1 = polygonPoints[0];
-
-  for (i = 1; i <= pointCount; i++) {
-      p2 = polygonPoints[i % pointCount];
-      if (
-          checkPoint[0] > Math.min(p1[0], p2[0]) &&
-          checkPoint[0] <= Math.max(p1[0], p2[0])
-      ) {
-          if (checkPoint[1] <= Math.max(p1[1], p2[1])) {
-              if (p1[0] != p2[0]) {
-                  xinters =
-                      (checkPoint[0] - p1[0]) *
-                          (p2[1] - p1[1]) /
-                          (p2[0] - p1[0]) +
-                      p1[1];
-                  if (p1[1] == p2[1] || checkPoint[1] <= xinters) {
-                      counter++;
-                  }
-              }
-          }
-      }
-      p1 = p2;
-  }
-  if (counter % 2 == 0) {
-      return false;
-  } else {
-      return true;
   }
 }

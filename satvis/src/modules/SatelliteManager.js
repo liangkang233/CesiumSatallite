@@ -1,8 +1,5 @@
 import { SatelliteEntityWrapper } from "./SatelliteEntityWrapper";
 import { GroundStationEntity } from "./GroundStationEntity";
-import { DescriptionHelper } from "./DescriptionHelper";
-import * as Cesium from "cesium/Cesium";
-import axios from 'axios';
 /* global app */
 
 export class SatelliteManager {
@@ -10,16 +7,10 @@ export class SatelliteManager {
     this.viewer = viewer;
 
     this.satellites = [];
-    this.enabledComponents = ["Point", "Label", "Orbit", "Ground station link"];
+    this.enabledComponents = [ "Label", "Orbit", "Ground station link", "3D model"];
     this.enabledTags = [];
-    this.enabletles=[];
-    // this.addFromTleUrl("../../data/tle/ext/beidou.txt", ["北斗卫星"]);
-    // this.addFromTleUrl("../../data/tle/ext/ziyuan.txt", ["资源系列"]);
-    // this.addFromTleUrl("../../data/tle/ext/huanjin.txt", ["环境系列"]);
-    // this.addFromTleUrl("../../data/tle/ext/zhongba.txt", ["中巴资源"]);
-    // this.addFromTleUrl("../../data/tle/ext/shijian.txt", ["实践系列"]); 
-    // this.description='123';
-// 监听事件，如果追踪的实体变化了，就改变
+    
+    // 追踪卫星
     this.viewer.trackedEntityChanged.addEventListener(() => {
       let trackedSatelliteName = this.trackedSatellite;
       if (trackedSatelliteName) {
@@ -29,103 +20,42 @@ export class SatelliteManager {
         app.$emit("updateTracked");
       }
     });
-    this.labels=[];
-    this.polygon=[];
-    this.viewer.selectedEntityChanged.addEventListener((data) => {
-      console.log(data);
-      if (data!= undefined && data.__proto__ !='Object' ) {
-          this.viewer.entities.remove(this.labels[0]);
-          if(this.labels.length>0){
-            this.labels[0].hide(["Label"]);
-            this.labels[0].hide(["Orbit"]);
-            this.labels[0].stopinterval();
-            var id = this.labels[0].lastid;
-            if(id>=0){
-            this.labels[0].neighborhoodEntities[id].polygon.material = Cesium.Color.YELLOW.withAlpha(0.8);
-            }
-          }
-          console.log(data.polygon);
-
-          if(data.polygon!=undefined){
-
-            this.createcoutrydescription(data);
-          }
-          else{
-          this.labels.pop();
-          const selectedSat = this.satellites.find((sat) =>  sat.props.name == data.name);
-          selectedSat.show(["Label"]);
-          selectedSat.show(["Orbit"]);
-          selectedSat.changepolygoncolor();
-          selectedSat.getcountries();
-          // this.viewer.entities.add(data["Label"]);
-          this.labels.push(selectedSat);
-        }
-      }
-    });
-  }
-  //创建国家描述信息
-  createcoutrydescription(data){
-    var time =this.viewer.clock.currentTime;
-      var enabletles=[];
-      this.enabledSatellites.forEach((sat) => {
-        enabletles.push(sat.tle);
-      });
-      // console.log(enabletles);
-      var information;
-  //     axios.post('api/pass_sats', enabletles).then((response) => {
-  //       if(response.data!='undefined' ){         
-  //          information= response.data;
-  //       }
-  //       console.log(information);
-  //        information.forEach((item)=>{
-  //         if(item.country == data.name){
-  //           console.log(item.sats);
-  //           data.description = DescriptionHelper.renderDescription(time, "", "", item.sats, false, "","","");     
-  //           console.log(this.description);
-          
-  //         }
-  //       })
-  //    }) ;
-     
-
   }
 
-// 从url添加tle卫星数据
+  // // 从url添加tle卫星数据
   addFromTleUrl(url, tags) {
+    //  fetch() 必须接受一个参数——资源的路径。无论请求成功与否，它都返回一个 Promise 对
     fetch(url, {
+      //no-cors: 保证请求对应的 method 只有 HEAD，GET 或 POST 方法，并且请求的 headers 只能有简单请求头
       mode: "no-cors",
     })
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
         }
-        
         return response;
       }).then(response => response.text())
       .then(data => {
         const lines = data.split(/\r?\n/);
-
         for (let i = 3; i < lines.length; i + 3) {
           let tle = lines.splice(i - 3, i).join("\n");
-
           this.addFromTle(tle, tags);
         }
       }).catch(function(error) {
         console.log(error);
       });
   }
-  
+
   addFromTle(tle, tags) {
     const sat = new SatelliteEntityWrapper(this.viewer, tle, tags);
     this.add(sat);
   }
 
-// 添加新的卫星
+  // 添加新的卫星
   add(newSat) {
     const existingSat = this.satellites.find((sat) => sat.props.satnum == newSat.props.satnum && sat.props.name == newSat.props.name);
     if (existingSat) {
       existingSat.props.addTags(newSat.props.tags);
-      //包括point、label、orbit等
       if (newSat.props.tags.some(tag => this.enabledTags.includes(tag))) {
         existingSat.show(this.enabledComponents);
       }
@@ -143,7 +73,8 @@ export class SatelliteManager {
       }
     }
   }
-// 卫星tag列表
+
+  // 卫星tag列表
   get taglist() {
     let taglist = {};
     this.satellites.forEach((sat) => {
@@ -156,7 +87,7 @@ export class SatelliteManager {
     });
     return taglist;
   }
-// 卫星列表
+  // 卫星列表
   get satlist() {
     let satlist = Object.keys(this.taglist).sort().map((tag) => {
       return {
@@ -169,7 +100,8 @@ export class SatelliteManager {
     }
     return satlist;
   }
-// 选中卫星类别
+
+  // 选中卫星类别
   get selectedSatellite() {
     for (let sat of this.satellites) {
       if (sat.isSelected) {
@@ -178,8 +110,8 @@ export class SatelliteManager {
     }
     return "";
   }
-// 追踪卫星
-// 计算属性由两部分组成，get和set，分别用来获取计算属性和设置计算属性
+
+  // 追踪卫星 :计算属性由两部分组成，get和set，分别用来获取计算属性和设置计算属性
   get trackedSatellite() {
     for (let sat of this.satellites) {
       if (sat.isTracked) {
@@ -335,6 +267,8 @@ export class SatelliteManager {
     });
 
     if ("app" in window) {
+      // 保留四位小数
+      // route为当前 router跳转对象，里面可以获取name、path、 query、 params=
       const latlon = `${position.latitude.toFixed(4)},${position.longitude.toFixed(4)}`;
       if (app.$route.query.gs != latlon) {
         app.$router.push({query: {...app.$route.query, gs: latlon}});

@@ -26,7 +26,7 @@ export class PushManager {
       return false;
     }
   }
-//获取许可
+
   requestPermission() {
     Notification.requestPermission((result) => {
       console.log("Notifcation permission result: " + result);

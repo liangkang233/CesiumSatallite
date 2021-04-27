@@ -127,6 +127,7 @@ export class CesiumEntityWrapper {
       name: name,
       description: description,
       position: position,
+      // 3D笛卡尔点 跟踪此对象时的视角
       viewFrom: new Cesium.Cartesian3(0, -3600000, 4200000),
     });
 

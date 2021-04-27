@@ -38,19 +38,7 @@ module.exports = {
   devServer: {
     compress: true,
     contentBase: path.resolve(basePath, "dist"),
-    port: 8080,
-    https: false,    //是否开启https
-    hotOnly: false,
-    proxy: { // 配置跨域
-        '/api': {
-            target: 'http://localhost:5000/satvis/api/v1.0/',
-            ws: true,
-            changOrigin:   true,    //是否开启代理
-            pathRewrite: {
-                '^/api': ''
-            }
-        }
-    },
+    port:8081,
   },
   devtool: "eval-source-map",
   mode: "development",
@@ -119,25 +107,25 @@ module.exports = {
       template: "src/index.html",
       chunks: ["app"]
     }),
-    // new HtmlWebpackPlugin({
-    //   filename: "move.html",
-    //   template: "src/index.html",
-    //   chunks: ["move"]
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "ot.html",
-    //   template: "src/index.html",
-    //   chunks: ["ot"]
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "embedded.html",
-    //   template: "src/embedded.html",
-    //   chunks: []
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "test.html",
-    //   chunks: ["test"]
-    // }),
+    new HtmlWebpackPlugin({
+      filename: "move.html",
+      template: "src/index.html",
+      chunks: ["move"]
+    }),
+    new HtmlWebpackPlugin({
+      filename: "ot.html",
+      template: "src/index.html",
+      chunks: ["ot"]
+    }),
+    new HtmlWebpackPlugin({
+      filename: "embedded.html",
+      template: "src/embedded.html",
+      chunks: []
+    }),
+    new HtmlWebpackPlugin({
+      filename: "test.html",
+      chunks: ["test"]
+    }),
     new MiniCssExtractPlugin({
       filename: "[name].[chunkhash:8].css",
       chunkFilename: "[id].[chunkhash:8].css"

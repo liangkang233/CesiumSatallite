@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="./jquery.min.js"></script>
+    <script src="./socket.io.min.js"></script>
+</head>
+<body>
+    <svg  class="svg1"  id="svg_1" xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" 
+    height="885px" preserveAspectRatio="none" style="width:80%;height:90%;" version="1.1" 
+    viewBox="0 0 1492 885" width="1492px" zoomAndPan="magnify"><defs/><g>
+        <style type="text/css">
+            .path {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+                stroke: #fcf8e3;
+                stroke-width: 15px;
+                animation: dash 3s linear forwards;
+            }
+            @keyframes dash {
+                from {
+                    stroke-dashoffset: 1000;
+                }
+    
+                to {
+                    stroke-dashoffset: 0;
+                }     
+            }
+        </style>  
+        <text fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold" lengthAdjust="spacing" textLength="152" x="667.75" y="32.6279">星载基站切换流程</text>
+        <rect fill="#FFFFFF" height="827.98" style="stroke:#A80036;stroke-width:1.0;" width="907.5" x="579" y="44.583"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" text-decoration="underline" textLength="39" x="1011.25" y="59.481">S-SAT</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="0" x="1054.25" y="59.481"/>
+        <line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="146" x2="146" y1="100.4575" y2="878.563"/>
+        <line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="279" x2="279" y1="100.4575" y2="878.563"/>
+        <line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="643" x2="643" y1="100.4575" y2="878.563"/>
+        <line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1019" x2="1019" y1="100.4575" y2="878.563"/>
+        <line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="1424.5" x2="1424.5" y1="100.4575" y2="878.563"/>
+        <rect fill="#FEFECE" height="33.1201" style="stroke:#A80036;stroke-width:1.5;" width="74" x="109" y="66.3374"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="60" x="116" y="89.3813">SAT-gNB</text>
+        <rect fill="#FEFECE" height="33.1201" style="stroke:#A80036;stroke-width:1.5;" width="53" x="253" y="66.3374"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="39" x="260" y="89.3813">T-SAT</text>
+        <rect fill="#FEFECE" height="33.1201" style="stroke:#A80036;stroke-width:1.5;" width="61" x="613" y="66.3374"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="47" x="620" y="89.3813">S-GMF</text>
+        <rect fill="#FEFECE" height="33.1201" style="stroke:#A80036;stroke-width:1.5;" width="71" x="984" y="66.3374"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="57" x="991" y="89.3813">S-HOMF</text>
+        <rect fill="#FEFECE" height="33.1201" style="stroke:#A80036;stroke-width:1.5;" width="56" x="1396.5" y="66.3374"/>
+        <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="42" x="1403.5" y="89.3813">S-UPF</text>
+        <polygon fill="#A80036" points="134,130.2119,144,134.2119,134,138.2119" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="0" x2="140" y1="134.2119" y2="134.2119"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="7" y="129.3555">1.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="107" x="22" y="129.3555">Handover Measure</text>
+        <polygon fill="#A80036" points="631.5,161.9663,641.5,165.9663,631.5,169.9663" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="146" x2="637.5" y1="165.9663" y2="165.9663"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="153" y="161.1099">2.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="216" x="168" y="161.1099">SG_SGMF_HANDVOER_MEASURE</text>
+        <polygon fill="#A80036" points="1007.5,193.7207,1017.5,197.7207,1007.5,201.7207" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="643.5" x2="1013.5" y1="197.7207" y2="197.7207"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="650.5" y="192.8643">3.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="235" x="665.5" y="192.8643">SGMF_HOMF_HANDVOER_MEASURE</text>
+        <path d="M948,210.7207 L948,255.7207 L1091,255.7207 L1091,220.7207 L1081,210.7207 L948,210.7207 " fill="#FFAAAA" style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M1081,210.7207 L1081,220.7207 L1091,220.7207 L1081,210.7207 " fill="#FFAAAA" style="stroke:#A80036;stroke-width:1.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="118" x="954" y="230.6187">4.Handover Decision</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="0" x="958" y="248.373"/>
+        <path d="M1024,266.2295 L1024,311.2295 L1156,311.2295 L1156,276.2295 L1146,266.2295 L1024,266.2295 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M1146,266.2295 L1146,276.2295 L1156,276.2295 L1146,266.2295 " fill="#FBFB77" style="stroke:#A80036;stroke-width:1.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="96" x="1030" y="286.1274">Handover Trigger</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="111" x="1030" y="303.8818">Handover Selection</text>
+        <polygon fill="#A80036" id="signal1_arrow" points="654.5,336.4927,644.5,340.4927,654.5,344.4927" style="stroke:#A80036;stroke-width:1.0;"/><!--1  -->
+        <line class="path" id="line1" style="stroke:#A80036;stroke-width:1.0;" x2="648.5" x1="1018.5" y1="340.4927" y2="340.4927"/>
+        <text fill="#000000" id="signal1_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="660.5" y="335.6362">5.</text>
+        <text fill="#FF0000" id="signal1" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="230" x="675.5" y="335.6362">HOMF_SGMF_HANDVOER_REQUEST</text>
+        <polygon fill="#A80036" id="signal2_arrow" points="290.5,368.2471,280.5,372.2471,290.5,376.2471" style="stroke:#A80036;stroke-width:1.0;"/><!--2  -->
+        <line class="path" id="line2" style="stroke:#A80036;stroke-width:1.0;" x2="284.5" x1="642.5" y1="372.2471" y2="372.2471"/>
+        <text fill="#000000" id="signal2_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="296.5" y="367.3906">6.</text>
+        <text fill="#FF0000"  id="signal2" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="218" x="311.5" y="367.3906">SGMF_SAT_HANDVOER_REQUEST</text>
+        <polygon fill="#A80036" id="signal3_arrow" points="631.5,400.0015,641.5,404.0015,631.5,408.0015" style="stroke:#A80036;stroke-width:1.0;"/><!--3  -->
+        <line  class="path" id="line3" style="stroke:#A80036;stroke-width:1.0;" x1="279.5" x2="637.5" y1="404.0015" y2="404.0015"/>
+        <text fill="#000000" id="signal3_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="286.5" y="399.145">7.</text>
+        <text fill="#FF0000" id="signal3" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="325" x="301.5" y="399.145">SAT_SGMF_HANDVOER_REQUEST_ACKNEWLEDGE</text>
+        <polygon fill="#A80036" id="signal4_arrow"  points="1007.5,431.7559,1017.5,435.7559,1007.5,439.7559" style="stroke:#A80036;stroke-width:1.0;"/><!--4  -->
+        <line class="path" id="line4" style="stroke:#A80036;stroke-width:1.0;" x1="643.5" x2="1013.5" y1="435.7559" y2="435.7559"/>
+        <text fill="#000000" id="signal4_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="650.5" y="430.8994">8.</text>
+        <text fill="#FF0000" id="signal4" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="337" x="665.5" y="430.8994">SGMF_HOMF_HANDVOER_REQUEST_ACKNEWLEDGE</text><path d="M932,448.7559 L932,475.7559 L1106,475.7559 L1106,458.7559 L1096,448.7559 L932,448.7559 " fill="#FFAAAA" style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M1096,448.7559 L1096,458.7559 L1106,458.7559 L1096,448.7559 " fill="#FFAAAA" style="stroke:#A80036;stroke-width:1.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="153" x="938" y="468.6538">Option1:创建数据转发隧道</text>
+        <polygon fill="#A80036" points="1412.5,501.2646,1422.5,505.2646,1412.5,509.2646" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="1019.5" x2="1418.5" y1="505.2646" y2="505.2646"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="11" x="1026.5" y="500.4082">9.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="290" x="1041.5" y="500.4082">HOMF_SUPF_CREATE_DATA_TUNNEL_NOTIFY</text>
+        <polygon fill="#A80036" points="1030.5,533.019,1020.5,537.019,1030.5,541.019" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="1024.5" x2="1423.5" y1="537.019" y2="537.019"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="1036.5" y="532.1626">10.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="359" x="1058.5" y="532.1626">.SUPF_HOMF_CREATE_DATA_TUNNEL_ACKNEWLENDGE</text>
+        <polygon fill="#A80036" id="signal5_arrow" points="654.5,564.7734,644.5,568.7734,654.5,572.7734" style="stroke:#A80036;stroke-width:1.0;"/><!--5  -->
+        <line class="path" id="line5" style="stroke:#A80036;stroke-width:1.0;" x2="648.5" x1="1018.5" y1="568.7734" y2="568.7734"/>
+        <text fill="#000000" id="signal5_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="660.5" y="563.917">11.</text>
+        <text fill="#FF0000" id="signal5" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="237" x="682.5" y="563.917">SGMF_HOMF_HANDVOER_COMMAND</text>
+        <polygon fill="#A80036" id="signal6_arrow" points="157,596.5278,147,600.5278,157,604.5278" style="stroke:#A80036;stroke-width:1.0;"/><!--6 -->
+        <line  class="path" id="line6" style="stroke:#A80036;stroke-width:1.0;" x2="151" x1="642.5" y1="600.5278" y2="600.5278"/>
+        <text fill="#000000" id="signal6_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="163" y="595.6714">12.</text>
+        <text fill="#FF0000" id="signal6" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="218" x="185" y="595.6714">SGMF_SG_HANDVOER_COMMAND</text>
+        <polygon fill="#A80036" id="signal7_arrow" points="631.5,628.2822,641.5,632.2822,631.5,636.2822" style="stroke:#A80036;stroke-width:1.0;"/><!--7  -->
+        <line  class="path" id="line7" style="stroke:#A80036;stroke-width:1.0;" x1="279.5" x2="637.5" y1="632.2822" y2="632.2822"/>
+        <text fill="#000000" id="signal7_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="286.5" y="627.4258">13.</text>
+        <text fill="#FF0000" id="signal7" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="204" x="308.5" y="627.4258">SAT_SGMF_HANDVOER_NOTIFY</text>
+        <polygon fill="#A80036" id="signal8_arrow" points="1007.5,660.0366,1017.5,664.0366,1007.5,668.0366" style="stroke:#A80036;stroke-width:1.0;"/><!--8  -->
+        <line  class="path" id="line8" style="stroke:#A80036;stroke-width:1.0;" x1="643.5" x2="1013.5" y1="664.0366" y2="664.0366"/>
+        <text fill="#000000"  id="signal8_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="650.5" y="659.1802">14.</text>
+        <text fill="#FF0000" id="signal8" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="216" x="672.5" y="659.1802">SGMF_HOMF_HANDVOER_NOTIFY</text>
+        <path d="M932,677.0366 L932,704.0366 L1106,704.0366 L1106,687.0366 L1096,677.0366 L932,677.0366 " fill="#FFAAAA" style="stroke:#A80036;stroke-width:1.0;"/>
+        <path d="M1096,677.0366 L1096,687.0366 L1106,687.0366 L1096,677.0366 " fill="#FFAAAA" style="stroke:#A80036;stroke-width:1.0;"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="153" x="938" y="696.9346">Option2:删除数据转发隧道</text>
+        <polygon fill="#A80036" points="1412.5,729.5454,1422.5,733.5454,1412.5,737.5454" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="1019.5" x2="1418.5" y1="733.5454" y2="733.5454"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="1026.5" y="728.689">15.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="238" x="1048.5" y="728.689">HOMF_UPF_DELETE_TUNNEL_NOTIFY</text>
+        <polygon fill="#A80036" points="1030.5,761.2998,1020.5,765.2998,1030.5,769.2998" style="stroke:#A80036;stroke-width:1.0;"/>
+        <line style="stroke:#A80036;stroke-width:1.0;" x1="1024.5" x2="1423.5" y1="765.2998" y2="765.2998"/>
+        <text fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="1036.5" y="760.4434">16.</text>
+        <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="291" x="1058.5" y="760.4434">SUPF_HOME_DELETE_TUNNEL_ACKNEWLEDGE</text>
+        <polygon fill="#A80036" id="signal9_arrow" points="654.5,793.0542,644.5,797.0542,654.5,801.0542" style="stroke:#A80036;stroke-width:1.0;"/><!--9 -->
+        <line class="path" id="line9" style="stroke:#A80036;stroke-width:1.0;" x2="648.5" x1="1018.5" y1="797.0542" y2="797.0542"/>
+        <text fill="#000000"  id="signal9_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="660.5" y="792.1978">17.</text>
+        <text fill="#FF0000" id="signal9" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="292" x="682.5" y="792.1978">SGMF_HOMF_CONTEXT_RELEASE_COMMAND</text>
+        <polygon fill="#A80036" id="signal10_arrow" points="157,824.8086,147,828.8086,157,832.8086" style="stroke:#A80036;stroke-width:1.0;"/><!--10  -->
+        <line class="path" id="line10" style="stroke:#A80036;stroke-width:1.0;" x2="151" x1="642.5" y1="828.8086" y2="828.8086"/>
+        <text fill="#000000" id="signal10_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="163" y="823.9521">18.</text>
+        <text fill="#FF0000" id="signal10" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="273" x="185" y="823.9521">SGMF_SG_CONTEXT_RELEASE_COMMAND</text>
+        <polygon fill="#A80036" id="signal11_arrow" points="631.5,856.563,641.5,860.563,631.5,864.563" style="stroke:#A80036;stroke-width:1.0;"/><!--11 -->
+        <line class="path" id="line11" style="stroke:#A80036;stroke-width:1.0;" x1="146" x2="637.5" y1="860.563" y2="860.563"/>
+        <text fill="#000000" id="signal11_digit" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="18" x="153" y="855.7065">19.</text>
+        <text fill="#FF0000" id="signal11" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="267" x="175" y="855.7065">SGMF_SG_CONTEXT_RELEASE_COMLETE</text>
+    </g></svg>
+    <script type="text/javascript"  charset="utf-8">
+        $(document).ready(function () {
+        var socket = io.connect('ws://127.0.0.1:5000/test');
+        socket.emit('my_event', "开始连接");
+        socket.on('server_response', function (data) {
+            let content=JSON.parse(data);
+            console.log(data);
+            if (content.length != 0){
+                switch(content.type){
+                    case 'HOMF_SGMF_HANDVOER_REQUEST': signal_num1();
+                    break;
+                    case 'SGMF_SAT_HANDVOER_REQUEST': signal_num2();
+                    break;
+                    case 'SAT_SGMF_HANDVOER_REQUEST_ACKNEWLEDGE': signal_num3();
+                    break;
+                    case 'SGMF_HOMF_HANDVOER_REQUEST_ACKNEWLEDGE': signal_num4();
+                    break;
+                    case 'SGMF_HOMF_HANDVOER_COMMAND': signal_num5();
+                    break;
+                    case 'SGMF_SG_HANDVOER_COMMAND': signal_num6();
+                    break;
+                    case 'SAT_SGMF_HANDVOER_NOTIFY': signal_num7();
+                    break;
+                    case 'SGMF_HOMF_HANDVOER_NOTIFY': signal_num8();
+                    break;
+                    case 'SGMF_HOMF_CONTEXT_RELEASE_COMMAND': signal_num9();
+                    break;
+                    case 'SGMF_SG_CONTEXT_RELEASE_COMMAND': signal_num10();
+                    break;
+                    case 'SGMF_SG_CONTEXT_RELEASE_COMLETE': signal_num11();                
+                    break;
+                    
+                }
+            }
+          
+        });
+        socket.on('agin', function (data) {
+            location.reload();
+        });
+    
+        // signal1
+        var signal1_arrow=document.getElementById("signal1_arrow");
+        var line1 = document.getElementById("line1");
+        var signal1_digit = document.getElementById("signal1_digit");
+        var signal1 = document.getElementById("signal1");
+        signal1_arrow.parentNode.removeChild(signal1_arrow);
+        line1.parentNode.removeChild(line1);
+        signal1_digit.parentNode.removeChild(signal1_digit)
+        signal1.parentNode.removeChild(signal1)
+        // signal2
+        var signal2_arrow=document.getElementById("signal2_arrow");
+        var line2 = document.getElementById("line2");
+        var signal2_digit = document.getElementById("signal2_digit");
+        var signal2 = document.getElementById("signal2");
+        signal2_arrow.parentNode.removeChild(signal2_arrow);
+        line2.parentNode.removeChild(line2);
+        signal2_digit.parentNode.removeChild(signal2_digit)
+        signal2.parentNode.removeChild(signal2)
+        // signal3
+        var signal3_arrow=document.getElementById("signal3_arrow");
+        var line3 = document.getElementById("line3");
+        var signal3_digit = document.getElementById("signal3_digit");
+        var signal3 = document.getElementById("signal3");
+        signal3_arrow.parentNode.removeChild(signal3_arrow);
+        line3.parentNode.removeChild(line3);
+        signal3_digit.parentNode.removeChild(signal3_digit)
+        signal3.parentNode.removeChild(signal3)
+        // signal4
+        var signal4_arrow=document.getElementById("signal4_arrow");
+        var line4 = document.getElementById("line4");
+        var signal4_digit = document.getElementById("signal4_digit");
+        var signal4 = document.getElementById("signal4");
+        signal4_arrow.parentNode.removeChild(signal4_arrow);
+        line4.parentNode.removeChild(line4);
+        signal4_digit.parentNode.removeChild(signal4_digit)
+        signal4.parentNode.removeChild(signal4)
+        // signal5
+        var signal5_arrow=document.getElementById("signal5_arrow");
+        var line5 = document.getElementById("line5");
+        var signal5_digit = document.getElementById("signal5_digit");
+        var signal5 = document.getElementById("signal5");
+        signal5_arrow.parentNode.removeChild(signal5_arrow);
+        line5.parentNode.removeChild(line5);
+        signal5_digit.parentNode.removeChild(signal5_digit)
+        signal5.parentNode.removeChild(signal5)
+        // signal6
+        var signal6_arrow=document.getElementById("signal6_arrow");
+        var line6 = document.getElementById("line6");
+        var signal6_digit = document.getElementById("signal6_digit");
+        var signal6 = document.getElementById("signal6");
+        signal6_arrow.parentNode.removeChild(signal6_arrow);
+        line6.parentNode.removeChild(line6);
+        signal6_digit.parentNode.removeChild(signal6_digit)
+        signal6.parentNode.removeChild(signal6)
+        // signal7
+        var signal7_arrow=document.getElementById("signal7_arrow");
+        var line7 = document.getElementById("line7");
+        var signal7_digit = document.getElementById("signal7_digit");
+        var signal7 = document.getElementById("signal7");
+        signal7_arrow.parentNode.removeChild(signal7_arrow);
+        line7.parentNode.removeChild(line7);
+        signal7_digit.parentNode.removeChild(signal7_digit)
+        signal7.parentNode.removeChild(signal7)
+        // signal8
+        var signal8_arrow=document.getElementById("signal8_arrow");
+        var line8 = document.getElementById("line8");
+        var signal8_digit = document.getElementById("signal8_digit");
+        var signal8 = document.getElementById("signal8");
+        signal8_arrow.parentNode.removeChild(signal8_arrow);
+        line8.parentNode.removeChild(line8);
+        signal8_digit.parentNode.removeChild(signal8_digit)
+        signal8.parentNode.removeChild(signal8)
+        // signal9
+        var signal9_arrow=document.getElementById("signal9_arrow");
+        var line9 = document.getElementById("line9");
+        var signal9_digit = document.getElementById("signal9_digit");
+        var signal9 = document.getElementById("signal9");
+        signal9_arrow.parentNode.removeChild(signal9_arrow);
+        line9.parentNode.removeChild(line9);
+        signal9_digit.parentNode.removeChild(signal9_digit)
+        signal9.parentNode.removeChild(signal9)
+        // signal10
+        var signal10_arrow=document.getElementById("signal10_arrow");
+        var line10 = document.getElementById("line10");
+        var signal10_digit = document.getElementById("signal10_digit");
+        var signal10 = document.getElementById("signal10");
+        signal10_arrow.parentNode.removeChild(signal10_arrow);
+        line10.parentNode.removeChild(line10);
+        signal10_digit.parentNode.removeChild(signal10_digit)
+        signal10.parentNode.removeChild(signal10)
+        // signal11
+        var signal11_arrow=document.getElementById("signal11_arrow");
+        var line11 = document.getElementById("line11");
+        var signal11_digit = document.getElementById("signal11_digit");
+        var signal11 = document.getElementById("signal11");
+        signal11_arrow.parentNode.removeChild(signal11_arrow);
+        line11.parentNode.removeChild(line11);
+        signal11_digit.parentNode.removeChild(signal11_digit)
+        signal11.parentNode.removeChild(signal11)
+
+        var svg = document.getElementById("svg_1");
+
+        // signal1
+        function signal_num1() {
+            svg.appendChild(line1);
+            setTimeout(function () {
+                svg.appendChild(signal1_digit);
+                svg.appendChild(signal1);
+                svg.appendChild(signal1_arrow);
+            },1200);
+        }
+
+        // signal2
+        function signal_num2() {
+            svg.appendChild(line2);
+            setTimeout(function () {
+                svg.appendChild(signal2_digit);
+                svg.appendChild(signal2);
+                svg.appendChild(signal2_arrow);
+            },1200);
+        }
+
+        // signal3
+        function signal_num3() {
+            svg.appendChild(line3);
+            setTimeout(function () {
+                svg.appendChild(signal3_digit);
+                svg.appendChild(signal3);
+                svg.appendChild(signal3_arrow);
+            },1200);
+        }
+
+        // signal4
+        function signal_num4() {
+            svg.appendChild(line4);
+            setTimeout(function () {
+                svg.appendChild(signal4_digit);
+                svg.appendChild(signal4);
+                svg.appendChild(signal4_arrow);
+            },1200);
+        }
+
+        // signal5
+        function signal_num5() {
+            svg.appendChild(line5);
+            setTimeout(function () {
+                svg.appendChild(signal5_digit);
+                svg.appendChild(signal5);
+                svg.appendChild(signal5_arrow);
+            },1200);
+        }
+
+        // signal6
+        function signal_num6() {
+        svg.appendChild(line6);
+        setTimeout(function () {
+            svg.appendChild(signal6_digit);
+            svg.appendChild(signal6);
+            svg.appendChild(signal6_arrow);
+        },1200);
+        }
+
+        // signal7
+        function signal_num7() {
+        svg.appendChild(line7);
+        setTimeout(function () {
+            svg.appendChild(signal7_digit);
+            svg.appendChild(signal7);
+            svg.appendChild(signal7_arrow);
+        },1200);
+        }
+
+        // signal8
+        function signal_num8() {
+        svg.appendChild(line8);
+        setTimeout(function () {
+            svg.appendChild(signal8_digit);
+            svg.appendChild(signal8);
+            svg.appendChild(signal8_arrow);
+        },1200);
+        }
+
+        // signal9
+        function signal_num9() {
+        svg.appendChild(line9);
+        setTimeout(function () {
+            svg.appendChild(signal9_digit);
+            svg.appendChild(signal9);
+            svg.appendChild(signal9_arrow);
+        },1200);
+        }
+
+        // signal10
+        function signal_num10() {
+        svg.appendChild(line10);
+        setTimeout(function () {
+            svg.appendChild(signal10_digit);
+            svg.appendChild(signal10);
+            svg.appendChild(signal10_arrow);
+        },1200);
+        }
+
+        // signal11
+        function signal_num11() {
+        svg.appendChild(line11);
+        setTimeout(function () {
+            svg.appendChild(signal11_digit);
+            svg.appendChild(signal11);
+            svg.appendChild(signal11_arrow);
+            location.reload();
+        },1200);
+        }
+    }); 
+    </script>
+</body>
+</html>

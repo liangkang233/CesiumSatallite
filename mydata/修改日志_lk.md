@@ -31,8 +31,18 @@ python: pip install flask-socketio
 
 ## 2021/1/23
 1. Exata的lte切换导入flask后端测试成功，现对接前端交互测试。后端flask已经可以与前端vue建立通信，测试是否将数据导入切换动画效果中
+
 2. 暂定exata使用get传输切换等命令，post传输相关数据。flask发送给cesium的各项初始化数据记录在[initialize](/satvis_api/initialize.json)中
+
 3. 测试中发现vue-socket.io版本虽然为3.0.10但其对应内核为js的2.X的socketio，所以要将flasksocketio和pythonsocketio版本降到4.x才可以正常交互
+
+   | JavaScript Socket.IO version | Socket.IO protocol revision | Engine.IO protocol revision | Flask-SocketIO version | python-socketio version | python-engineio version |
+   | :--------------------------: | :-------------------------: | :-----------------------------: | :--: | :--: | :--: |
+   | 0.9.x | 1, 2 | 1, 2 | Not supported | Not supported | Not supported |
+   | 1.x and 2.x | 3, 4 | 3 | 4.x | 4.x | 3.x |
+   | 3.x and 4.x | 5 | 4 | 5.x | 5.x | 4.x |
+
+   
 
 ## 2021/1/26
 1. 完善cesium与exata联动时同步过程，添加了开始、结束仿真以及系统初始化信令。(改变cc.viewer参数)确保Exata仿真前cesium保持时间运动轨迹不变直到exata仿真运行后cesium才会调用json里的初始化参数。
@@ -42,7 +52,7 @@ python: pip install flask-socketio
 1. 继续使用sessionStorage，之后多终端改数据格式后再改变。
 2. 设置SatelliteManager.js默认启用以下数据，地面终端问题设置问题先搁置待解决
 ```
-this.enabledComponents = ["Point", "Label", "Orbit", "Ground station link"];
+this.enabledComponents = [ "Label", "Orbit", "Ground station link", "3D model"];
 ```
 3. pythona安装eventlet包，导致falsk收到http访问返回消息后不会立刻关闭该套接字，所以不针对复杂场景的外部实体接收返回代码更改为仅接收一次就主动关闭tcp套接字。
 4. 之后任务中Exata加入48星场景测试，传输其中信令数据仅仅后端存储不展示至Cesium。

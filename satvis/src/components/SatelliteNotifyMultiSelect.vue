@@ -23,7 +23,7 @@
 </template>
 
 <script>
-/* global cc */
+/* global $cc */
 import multiSelect from "vue-multi-select";
 import "vue-multi-select/dist/lib/vue-multi-select.css";
 
@@ -35,7 +35,7 @@ export default {
     return {
       btnLabel: values => `Monitored satellites (${values.length})`,
       values: [],
-      data: cc.sats.satlist,
+      data: $cc.sats.satlist,
       filters: [{
         nameAll: "Select all",
         nameNotAll: "Deselect all",
@@ -54,13 +54,13 @@ export default {
       if (newSats.every(e => oldSats.includes(e)) && oldSats.every(e => newSats.includes(e))) {
         return;
       }
-      cc.sats.monitoredSatellites = newSats;
+      $cc.sats.monitoredSatellites = newSats;
     }
   },
   methods: {
     update: function() {
-      this.data = cc.sats.satlist;
-      this.values = cc.sats.monitoredSatellites;
+      this.data = $cc.sats.satlist;
+      this.values = $cc.sats.monitoredSatellites;
     },
   }
 };
